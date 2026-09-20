@@ -3,9 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Miguel G. Munoz</title>
+  <title>Miguel G. Muñoz</title>
+  <meta name="description" content="Miguel G. Muñoz (Miguel Gómez Muñoz) works in offshore wind finance at Ocean Winds, helping fund renewable energy projects.">
+  <meta property="og:title" content="Miguel G. Muñoz">
+  <meta property="og:description" content="Offshore wind finance at Ocean Winds. Over a decade helping fund renewable energy.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://miguelgmunoz.github.io/">
+
+  <!-- Apply saved theme before the page paints, to avoid a flash -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("theme");
+        if (saved === "dark" || saved === "light") {
+          document.documentElement.setAttribute("data-theme", saved);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Structured data: tells search engines both names are the same person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Miguel G. Muñoz",
+    "alternateName": ["Miguel Gómez Muñoz", "Miguel Gomez Munoz", "Miguel Gómez-Muñoz"],
+    "jobTitle": "Head of Finance",
+    "worksFor": { "@type": "Organization", "name": "Ocean Winds" },
+    "url": "https://miguelgmunoz.github.io/",
+    "sameAs": ["https://www.linkedin.com/in/miguelgmunoz/"]
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #fff;
+      --text: #222;
+      --muted: #888;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #1a1a1a;
+        --text: #e4e4e4;
+        --muted: #8a8a8a;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #e4e4e4;
+      --muted: #8a8a8a;
+      color-scheme: dark;
+    }
+
     body {
       max-width: 32rem;
       margin: 5rem auto;
@@ -13,22 +66,96 @@
       font-family: "Geist", system-ui, sans-serif;
       font-size: 1rem;
       line-height: 1.6;
-      color: #222;
-      background: #fff;
+      color: var(--text);
+      background: var(--bg);
+      transition: background-color 0.2s, color 0.2s;
     }
     h1 { font-size: 1.4rem; font-weight: 500; }
     a { color: inherit; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .theme-toggle {
+      position: relative;
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 1.4rem;
+      padding: 0;
+      border: 1.5px solid var(--text);
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+    }
+    .theme-toggle::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0.2rem;
+      width: 0.85rem;
+      height: 0.85rem;
+      border-radius: 50%;
+      background: var(--text);
+      transform: translateY(-50%);
+      transition: transform 0.2s ease;
+    }
+    :root[data-theme="dark"] .theme-toggle::after {
+      transform: translate(1.05rem, -50%);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle::after {
+        transform: translate(1.05rem, -50%);
+      }
+    }
+    .theme-toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      body, .theme-toggle::after { transition: none; }
+    }
   </style>
 </head>
 <body>
 
-  <h1>Miguel G. Muñoz</h1>
+  <header>
+    <h1>Miguel G. Muñoz</h1>
+    <button class="theme-toggle" id="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode"></button>
+  </header>
 
   <p>¡Hola! I work in Ocean Winds, where I help bring offshore wind projects to life. Before that, I worked at X-Elio and BBVA. For over a decade, I’ve been helping fund renewable energy.</p>
 
   <p>I’m a husband to my amazing wife, a proud father to a wonderful daughter, and someone who loves learning and teaching.</p>
 
   <p>Find me on <a href="https://www.linkedin.com/in/miguelgmunoz/">LinkedIn</a>.</p>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var button = document.getElementById("theme-toggle");
+
+      function currentTheme() {
+        var set = root.getAttribute("data-theme");
+        if (set) return set;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+
+      function syncSwitch() {
+        button.setAttribute("aria-checked", currentTheme() === "dark" ? "true" : "false");
+      }
+
+      button.addEventListener("click", function () {
+        var next = currentTheme() === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        syncSwitch();
+      });
+
+      syncSwitch();
+    })();
+  </script>
 
 </body>
 </html>
